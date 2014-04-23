@@ -7,7 +7,8 @@ using System.IO;
 using System.Text.RegularExpressions;
 using Excel = Microsoft.Office.Interop.Excel;
 using System.Data;
-
+using System.Data.OleDb;
+using System.ComponentModel;
 
 
 namespace WC_ParseSAPExcel
@@ -35,6 +36,12 @@ namespace WC_ParseSAPExcel
                     break;
                 case "2":
                     Console.WriteLine("Read Excel File YTD Wcomp 2.xls");
+                    MyExcel excel = new MyExcel();
+                    excel.InitializeExcel();
+                    excel.ReadMyExcel();
+                    
+                    
+
                     break;
                 default:
                     Console.WriteLine("Default case");
@@ -215,16 +222,11 @@ namespace WC_ParseSAPExcel
 
         }
 
-        /*
-        static private void ReadExcel_YTD_Wcomp()
-        {
-            MyApp = new Excel.Application();
-            MyApp.Visible = false;
-            MyBook = MyApp.Workbooks.Open(_YTD_WCOMP_2_XLS_PATH);
-            MySheet = (Excel.Worksheet)MyBook.Sheets[1]; // Explicit cast is not required here
-            lastRow = MySheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
 
-        }*/
+   
+
+
+        
     }
 }
 
