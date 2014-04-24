@@ -9,25 +9,26 @@ using System.Data.OleDb;
 using System.ComponentModel;
 namespace WC_ParseSAPExcel
 {
-    class Employee
+    class YTDWCOMP
     {
 
-        public string Name { get; set; }
-        public string Number { get; set; }
-        public string Employee_ID { get; set; }
-        public string Email_ID { get; set; }
+        public string PERSONNELNUMBER { get; set; }
+        public string FIRSTNAME { get; set; }
+        public string LASTNAME { get; set; }
+        public string WAGETYPE { get; set; }
+        public string YEARTODATE { get; set; }
     }
 
-    class EmpConstants
+    /*class EmpConstants
     {
         private const string DOMAIN_NAME = "xyz.com";
-    }
+    }*/
 
 
     class MyExcel
     {
-        public static string DB_PATH = @"C:\Users\Alan\Documents\Visual Studio 2013\Projects\WC_ParseSAPExcel\WC_ParseSAPExcel\bin\Debug\Employee.xlsx";
-        public static BindingList<Employee> EmpList = new BindingList<Employee>();
+        public static string DB_PATH = @"C:\Worker's com\SAP\YTD Wcomp 2.xls";
+        public static BindingList<YTDWCOMP> EmpList = new BindingList<YTDWCOMP>();
         private static Excel.Workbook MyBook = null;
         private static Excel.Application MyApp = null;
         private static Excel.Worksheet MySheet = null;
@@ -42,23 +43,24 @@ namespace WC_ParseSAPExcel
             MySheet = (Excel.Worksheet)MyBook.Sheets[1]; // Explict cast is not required here
             lastRow = MySheet.Cells.SpecialCells(Excel.XlCellType.xlCellTypeLastCell).Row;
         }
-        public BindingList<Employee> ReadMyExcel()
+        public BindingList<YTDWCOMP> ReadMyExcel()
         {
             EmpList.Clear();
             for (int index = 2; index <= lastRow; index++)
             {
-                System.Array MyValues = (System.Array)MySheet.get_Range("A" + index.ToString(), "D" + index.ToString()).Cells.Value;
-                EmpList.Add(new Employee
+                System.Array MyValues = (System.Array)MySheet.get_Range("A" + index.ToString(), "W" + index.ToString()).Cells.Value;
+                EmpList.Add(new YTDWCOMP
                 {
-                    Name = MyValues.GetValue(1, 1).ToString(),
-                    Employee_ID = MyValues.GetValue(1, 2).ToString(),
-                    Email_ID = MyValues.GetValue(1, 3).ToString(),
-                    Number = MyValues.GetValue(1, 4).ToString()
+                    PERSONNELNUMBER = MyValues.GetValue(1, 1).ToString(),
+                    FIRSTNAME = MyValues.GetValue(1, 5).ToString(),
+                    LASTNAME = MyValues.GetValue(1, 6).ToString(),
+                    WAGETYPE = MyValues.GetValue(1, 15).ToString(),
+                    YEARTODATE = MyValues.GetValue(1, 21).ToString()
                 });
             }
             return EmpList;
         }
-        public void WriteToExcel(Employee emp)
+        /*public void WriteToExcel(Employee emp)
         {
             try
             {
@@ -73,9 +75,9 @@ namespace WC_ParseSAPExcel
             catch (Exception ex)
             { }
 
-        }
+        }*/
 
-        public List<Employee> FilterEmpList(string searchValue, string searchExpr)
+       /* public List<Employee> FilterEmpList(string searchValue, string searchExpr)
         {
             List<Employee> FilteredList = new List<Employee>();
             switch (searchValue.ToUpper())
@@ -96,7 +98,7 @@ namespace WC_ParseSAPExcel
                     break;
             }
             return FilteredList;
-        }
+        }*/
         public void CloseExcel()
         {
             MyBook.Saved = true;
